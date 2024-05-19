@@ -10,6 +10,7 @@ export class ErrorMiddleware {
     switch(true) {
       case err instanceof HttpError:
         res.status(err.code).json(err.response());
+        break
       case err instanceof PrismaClientKnownRequestError:
         const name = ((err as PrismaClientKnownRequestError).meta!.target as string).split("_")[1];
         const prismaValidationError = new UniqueError(`${name} zaten kullanılıyor`,{
@@ -19,6 +20,7 @@ export class ErrorMiddleware {
         break;
       default:
         res.status(INTERNAL_SERVER_ERROR.code).json(INTERNAL_SERVER_ERROR.response());
+        console.log(err);
     }
 
   }

@@ -18,16 +18,21 @@ const rules = {
     rule : /^.{10,}$/,
     message : "Şifre en az 10 karakter olmalıdır"
   },
+  fullname : {
+    name : "fullname",
+    rule : /^.{6,}$/,
+    message : "Tam adınız en az 6 karakter olmalıdır"
+  }
 }
 
-type fieldType = "email" | "username" | "password";
+type fieldType = "email" | "username" | "password" | "fullname";
 
 export class UserValidator extends Validator {
 
   user : User;
   fields : fieldType[];
 
-  constructor(user : User, fields : fieldType[] = ["email", "username", "password"]) {
+  constructor(user : User, fields : fieldType[] = ["email", "username", "password", "fullname"]) {
     super();
     this.user = user;
     this.fields = fields
@@ -38,7 +43,11 @@ export class UserValidator extends Validator {
     const failedFields : {name: string, message: string}[] = [];
     
     for (let field of this.fields) {
-      if (!this.validateField(this.user[field], rules[field].rule)) {
+      if (!this.user[field]) failedFields.push({
+        name: rules[field].name,
+        message: "Bu alan gerekli"
+      })
+      else if (!this.validateField(this.user[field], rules[field].rule)) {
         failedFields.push({
           name: rules[field].name,
           message : rules[field].message 

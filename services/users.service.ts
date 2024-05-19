@@ -15,7 +15,10 @@ export class UserService extends Service {
         const validator = new UserValidator(user);
         validator.validate();
 
+        user.role = ["admin", "user"].includes(user.role) ? user.role : "user"
         user.password = await hashPassword(user.password);
+
+        console.log(user);
 
         return await this.repository.user.create({
             data : user
