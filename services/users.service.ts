@@ -26,7 +26,7 @@ export class UserService extends Service {
 
     }
 
-    public async findByEmail(email: string): Promise<User | null> {
+    public async findByEmail(email: string): Promise<User> {
         const user = await this.repository.user.findUnique({
             where: {
                 email
@@ -38,7 +38,7 @@ export class UserService extends Service {
         return user;
     }
 
-    public async findByUsername(username: string): Promise<User | null> {
+    public async findByUsername(username: string): Promise<User> {
         const user = await this.repository.user.findUnique({
             where: {
                 username
@@ -50,7 +50,7 @@ export class UserService extends Service {
         return user;
     }
 
-    public async findById(id: string): Promise<User | null> {
+    public async findById(id: string): Promise<User> {
         const user = await this.repository.user.findUnique({
             where: {
                 id

@@ -5,3 +5,8 @@ export interface RegisterDTO {
   fullname: string;
   role: string;
 }
+
+export interface LoginDTO {
+  email: string;
+  password: string;
+}
