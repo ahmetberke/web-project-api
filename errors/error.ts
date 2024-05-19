@@ -3,7 +3,7 @@ type StatusType = "fail" | "error"
 export interface HttpErrorPayload {
     code: number;
     name: string;
-    status: string;
+    status: StatusType;
     message: string;
     details?: any;
 }
