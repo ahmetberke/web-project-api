@@ -14,12 +14,14 @@ export class HttpError extends Error {
     readonly name: string;
     readonly status: string;
     readonly details?: any;
+    readonly message : string;
     
     constructor(payload : HttpErrorPayload) {
         super(payload.message);
         this.code = payload.code;
         this.name = payload.name;
         this.status = payload.status;
+        this.message = payload.message
         this.details = payload.details;
     }
 
@@ -28,7 +30,8 @@ export class HttpError extends Error {
             code: this.code,
             name: this.name,
             status: this.status,
-            details : this.details
+            details : this.details,
+            message: this.message
         }
     }
 
