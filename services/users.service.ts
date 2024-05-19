@@ -2,6 +2,7 @@ import { PrismaClient, User } from "@prisma/client";
 import { Service } from "./service";
 import { hashPassword } from "../utils/secret"
 import { UserValidator } from "../validations/user.validator";
+import { USER_NOT_FOUND_ERROR } from "../errors/user.error";
 
 export class UserService extends Service {
 
@@ -20,6 +21,42 @@ export class UserService extends Service {
             data : user
         });
 
+    }
+
+    public async findByEmail(email: string): Promise<User | null> {
+        const user = await this.repository.user.findUnique({
+            where: {
+                email
+            }
+        });
+        if (!user) {
+            throw USER_NOT_FOUND_ERROR
+        }
+        return user;
+    }
+
+    public async findByUsername(username: string): Promise<User | null> {
+        const user = await this.repository.user.findUnique({
+            where: {
+                username
+            }
+        });
+        if (!user) {
+            throw USER_NOT_FOUND_ERROR
+        }
+        return user;
+    }
+
+    public async findById(id: string): Promise<User | null> {
+        const user = await this.repository.user.findUnique({
+            where: {
+                id
+            }
+        });
+        if (!user) {
+            throw USER_NOT_FOUND_ERROR
+        }
+        return user;
     }
 
 }
