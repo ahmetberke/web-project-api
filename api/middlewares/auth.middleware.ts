@@ -8,15 +8,13 @@ export class AuthMiddleware {
     try {
       const token = req.header('Authorization')?.replace('Bearer ', '');
       if (!token) throw AUTH_NO_AUTHORIZED
-  
       const decoded = jwt.verify(token, process.env.SECRET_KEY!) as {
         _id: string;
         username: string;
         email: string;
         exp: number;
       };
-      
-      if (decoded.exp < Date.now()) throw AUTH_NO_AUTHORIZED
+      if (decoded.exp > Date.now()) throw AUTH_NO_AUTHORIZED
       req.user = {
         _id: decoded._id,
         username: decoded.username,

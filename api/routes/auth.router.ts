@@ -18,6 +18,7 @@ export class AuthRouter extends ApiRouter{
   private routes() {
     this.router.post("/register", this.authController.register);
     this.router.post("/login", this.authController.login);
+    this.router.get("/me", AuthMiddleware.Authorization, this.authController.me)
   }
 
 }

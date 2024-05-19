@@ -1,3 +1,4 @@
+import { UserToUserDTO } from './../dto/user.dto';
 import { GenerateToken } from './../../utils/jwt';
 import { UserService } from './../../services/users.service';
 import dbClient from "../../database/client"
@@ -5,7 +6,6 @@ import { NextFunction, Request, Response } from 'express';
 import { RegisterDTO } from '../dto/auth.dto';
 import { User } from '@prisma/client';
 import { SuccessCreateResponse, SuccessResponse } from '../response/success.response';
-import { UserToUserDTO } from '../dto/user.dto';
 import { validatePassword } from '../../utils/secret';
 import { AUTH_WRONG_PASSWORD_ERROR } from '../../errors/auth.error';
 
@@ -63,6 +63,16 @@ export class AuthController {
       next(e)
     }
 
+  }
+
+  me = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await this.userService.findById(req.user!._id);
+      const response = SuccessResponse("Kullanıcı başarıyla getirildi", UserToUserDTO(user));
+      res.status(response.code).json(response);
+    } catch (e) {
+      next(e)
+    }   
   }
 
 }
