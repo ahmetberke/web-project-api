@@ -34,7 +34,7 @@ export class PostController {
 
   all = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+      console.log(req);
       let authorId = req.query.authorId as string;
       let authorOwn = req.query.authorOwn as string;
       if (authorOwn === "true") {
