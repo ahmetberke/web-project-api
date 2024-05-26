@@ -22,10 +22,57 @@ model User {
   fullname String
   role     String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  @@map("users")
+  posts Post[]
 
+  comments Comment[]
+
+  @@map("users")
+}
+
+model Post {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // relation
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+
+  // content fields
+  title       String
+  description String
+  content     String
+  
+  // static fields
+  views Int @default(0)
+  likes String[] @default([])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  comments Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // relation
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String @db.ObjectId
+
+  content String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  @@map("comments")
 }
