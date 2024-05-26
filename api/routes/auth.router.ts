@@ -1,5 +1,6 @@
 import { AuthController } from '../controllers/auth.controller';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { RoleMiddleware } from '../middlewares/role.middleware';
 import { ApiRouter } from './router';
 
 export class AuthRouter extends ApiRouter{
