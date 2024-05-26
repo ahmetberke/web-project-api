@@ -12,7 +12,7 @@ export class ErrorMiddleware {
         res.status(err.code).json(err.response());
         break
       case err instanceof PrismaClientKnownRequestError:
-        const name = ((err as PrismaClientKnownRequestError).meta!.target as string).split("_")[1];
+        const name = ((err as PrismaClientKnownRequestError).meta!.target as string) ? ((err as PrismaClientKnownRequestError).meta!.target as string).split("_")[1] : "";
         const prismaValidationError = new UniqueError(`${name} zaten kullanılıyor`,{
           name
         });
