@@ -13,12 +13,14 @@ export class AuthMiddleware {
         username: string;
         email: string;
         exp: number;
+        role: string
       };
       if (decoded.exp > Date.now()) throw AUTH_NO_AUTHORIZED
       req.user = {
         _id: decoded._id,
         username: decoded.username,
         email: decoded.email,
+        role: decoded.role
       };
       
       next();
