@@ -23,7 +23,7 @@ export class AuthController {
       const registerPayload = req.body as RegisterDTO;
       const registeredUser = await this.userService.create(registerPayload as User);
       
-      const token = GenerateToken(registeredUser.id, registeredUser.username, registeredUser.email);
+      const token = GenerateToken(registeredUser.id, registeredUser.username, registeredUser.email, registeredUser.role);
 
       const response = SuccessCreateResponse("kullanıcı başarıyla oluşturuldu", {
         user: UserToUserDTO(registeredUser),
@@ -50,7 +50,7 @@ export class AuthController {
         throw AUTH_WRONG_PASSWORD_ERROR
       }
 
-      const token = GenerateToken(loggedUser.id, loggedUser.username, loggedUser.email);
+      const token = GenerateToken(loggedUser.id, loggedUser.username, loggedUser.email, loggedUser.role);
 
       const response = SuccessResponse("Başarıyla giriş yaptınız", {
         user: UserToUserDTO(loggedUser),
@@ -73,6 +73,15 @@ export class AuthController {
     } catch (e) {
       next(e)
     }   
+  }
+
+  checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = SuccessResponse("bu bir admin işlemi, yetkiniz tam", null);
+      res.status(response.code).json(response);
+    } catch(e) {
+      next(e)
+    }
   }
 
 }
