@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docker-next
+    ports:
+      - '3002:3000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      NEXT_PUBLIC_API_URL: webapi
+    command: npm run dev
