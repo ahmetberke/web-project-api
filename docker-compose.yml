@@ -1,0 +1,23 @@
+version: '2'
+
+include:
+  - path:
+    - ./frontend/docker-compose.yml
+
+
+services:
+  web:
+    build: .
+    command: npm run dev
+    container_name: webapi
+    ports:
+      - "3000:3000"
+    networks:
+      - app
+    environment:
+      DATABASE_URL: mongodb+srv://webapi:J0cId5BhqHESU2yM@cluster0.7r0k9.mongodb.net/webapi?retryWrites=true&w=majority&appName=Cluster0
+
+networks:
+  app:
+    name: app
+    driver: bridge
